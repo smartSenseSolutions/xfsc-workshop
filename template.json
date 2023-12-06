@@ -1,0 +1,349 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Creates a VPC, EC2 instance, S3 bucket, IAM user, and associated resources.",
+    "Parameters": {
+        "VpcName": {
+            "Type": "String",
+            "Description": "Name for the VPC",
+            "Default": "smart-x"
+        },
+        "AmiID": {
+            "Type": "String",
+            "Description": "AMI Id for the EC2 instance"
+        },
+        "AvailabilityZoneName": {
+            "Description": "AZ Name where subnet will be created",
+            "Type": "AWS::EC2::AvailabilityZone::Name"
+        },
+        "KeyPairName": {
+            "Description": "Key Pair Name to ssh into Ec2 Instance",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "DomainName": {
+            "Description": "A fully-qualified domain name (FQDN).",
+            "Type": "String",
+            "MinLength": "1",
+            "MaxLength": "64",
+            "AllowedPattern": "(?!-)[a-zA-Z0-9-.]*(?<!-)",
+            "ConstraintDescription": "must be a valid fully-qualified domain name."
+        },
+        "HostedZoneId": {
+            "Description": "Select your Hosted Zone",
+            "Type": "AWS::Route53::HostedZone::Id"
+        }
+    },
+    "Resources": {
+        "SmartXvpc": {
+            "Type": "AWS::EC2::VPC",
+            "Properties": {
+                "CidrBlock": "10.0.0.0/16",
+                "EnableDnsHostnames": "true",
+                "EnableDnsSupport": "true",
+                "InstanceTenancy": "default",
+                "Tags": [
+                    { "Key": "Name", "Value": { "Ref": "VpcName" } },
+                    {
+                        "Key": "Application",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    }
+                ]
+            }
+        },
+        "InternetGateway": {
+            "Type": "AWS::EC2::InternetGateway",
+            "Properties": {
+                "Tags": [
+                    { "Key": "Name", "Value": "smart-x-igw" },
+                    {
+                        "Key": "Application",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    }
+                ]
+            }
+        },
+        "InternetGatewayAttachment": {
+            "Type": "AWS::EC2::VPCGatewayAttachment",
+            "Properties": {
+                "InternetGatewayId": { "Ref": "InternetGateway" },
+                "VpcId": { "Ref": "SmartXvpc" }
+            }
+        },
+        "PublicSubnet": {
+            "Type": "AWS::EC2::Subnet",
+            "Properties": {
+                "VpcId": { "Ref": "SmartXvpc" },
+                "AvailabilityZone": {
+                    "Ref": "AvailabilityZoneName"
+                },
+                "CidrBlock": "10.0.1.0/24",
+                "MapPublicIpOnLaunch": true,
+                "Tags": [
+                    { "Key": "Name", "Value": { "Fn::Sub": "${VpcName}-public-${AvailabilityZoneName}" } },
+                    {
+                        "Key": "Application",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    }
+                ]
+            }
+        },
+        "PublicRouteTable": {
+            "Type": "AWS::EC2::RouteTable",
+            "Properties": {
+                "VpcId": { "Ref": "SmartXvpc" },
+                "Tags": [
+                    { "Key": "Name", "Value": "smart-x-public-rt" },
+                    {
+                        "Key": "Application",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    }
+                ]
+            }
+        },
+        "DefaultPublicRoute": {
+            "Type": "AWS::EC2::Route",
+            "DependsOn": "InternetGatewayAttachment",
+            "Properties": {
+                "RouteTableId": { "Ref": "PublicRouteTable" },
+                "DestinationCidrBlock": "0.0.0.0/0",
+                "GatewayId": { "Ref": "InternetGateway" }
+            }
+        },
+        "PublicSubnetRouteTableAssociation": {
+            "Type": "AWS::EC2::SubnetRouteTableAssociation",
+            "Properties": {
+                "SubnetId": { "Ref": "PublicSubnet" },
+                "RouteTableId": { "Ref": "PublicRouteTable" }
+            }
+        },
+        "Ec2SecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Enable SSH access via port 22, and frontend access via port 80/443",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "22",
+                        "ToPort": "22",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": "0.0.0.0/0"
+                    },
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "443",
+                        "ToPort": "443",
+                        "CidrIp": "0.0.0.0/0"
+                    }
+                ],
+                "VpcId": { "Ref": "SmartXvpc" },
+                "Tags": [
+                    { "Key": "Name", "Value": "smart-x-ec2-sg" },
+                    {
+                        "Key": "Application",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    }
+                ]
+            }
+        },
+        "Ec2Instance": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": { "Ref": "AmiID" },
+                "InstanceType": "t2.medium",
+                "KeyName": { "Ref": "KeyPairName" },
+                "SecurityGroupIds": [{ "Ref": "Ec2SecurityGroup" }],
+                "SubnetId": { "Ref": "PublicSubnet" },
+                "AvailabilityZone": {
+                    "Ref": "AvailabilityZoneName"
+                },
+                "Tags": [
+                    { "Key": "Name", "Value": "smart-x-ec2" },
+                    {
+                        "Key": "Application",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    }
+                ]
+            }
+        },
+        "MyEIP": {
+            "Type": "AWS::EC2::EIP",
+            "Properties": {
+                "InstanceId": { "Ref": "Ec2Instance" },
+                "Tags": [
+                    { "Key": "Name", "Value": "smart-x-eip" },
+                    {
+                        "Key": "Application",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    }
+                ]
+            }
+        },
+        "MyS3Bucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+                "Tags": [
+                    { "Key": "Name", "Value": "smart-x-s3" },
+                    {
+                        "Key": "Application",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    }
+                ]
+            }
+        },
+        "InstanceDNSRecord1": {
+            "Type": "AWS::Route53::RecordSet",
+            "Properties": {
+                "HostedZoneId": {
+                    "Ref": "HostedZoneId"
+                },
+                "Comment": "DNS record for the EC2 instance",
+                "Name": { "Fn::Sub": "gaia-x.${DomainName}" },
+                "Type": "A",
+                "TTL": "300",
+                "ResourceRecords": [
+                    {
+                        "Ref": "MyEIP"
+                    }
+                ]
+            }
+        },
+        "InstanceDNSRecord2": {
+            "Type": "AWS::Route53::RecordSet",
+            "Properties": {
+                "HostedZoneId": {
+                    "Ref": "HostedZoneId"
+                },
+                "Comment": "DNS record for the EC2 instance",
+                "Name": { "Fn::Sub": "gaia-x-api.${DomainName}" },
+                "Type": "A",
+                "TTL": "300",
+                "ResourceRecords": [
+                    {
+                        "Ref": "MyEIP"
+                    }
+                ]
+            }
+        },
+        "MyIAMUser": {
+            "Type": "AWS::IAM::User",
+            "Properties": {
+                "Policies": [
+                    {
+                        "PolicyName": "smart-x-route53",
+                        "PolicyDocument": {
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": [
+                                        "route53:GetHostedZone",
+                                        "route53:ListHostedZones",
+                                        "route53:UpdateHostedZoneComment",
+                                        "route53:ChangeResourceRecordSets",
+                                        "route53:ListResourceRecordSets",
+                                        "route53:GetHostedZoneCount",
+                                        "route53:ListHostedZonesByName"
+                                    ],
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "PolicyName": "smart-x-s3",
+                        "PolicyDocument": {
+                            "Statement": [
+                                {
+                                    "Effect": "Allow",
+                                    "Action": ["s3:PutObject", "s3:GetObject", "s3:DeleteObject"],
+                                    "Resource": { "Fn::Join": ["", ["arn:aws:s3:::", { "Ref": "MyS3Bucket" }, "*/*"]] }
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": ["s3:ListAllMyBuckets", "s3:ListBucket"],
+                                    "Resource": "*"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "Tags": [
+                    { "Key": "Name", "Value": "smart-x-ec2-user" },
+                    {
+                        "Key": "Application",
+                        "Value": {
+                            "Ref": "AWS::StackName"
+                        }
+                    }
+                ]
+            }
+        },
+        "MyIAMAccessKey": {
+            "Type": "AWS::IAM::AccessKey",
+            "Properties": {
+                "UserName": { "Ref": "MyIAMUser" }
+            }
+        }
+    },
+    "Outputs": {
+        "SmartXvpc": {
+            "Description": "A reference to the created VPC",
+            "Value": { "Ref": "SmartXvpc" }
+        },
+        "Ec2InstanceId": {
+            "Description": "ID of the created EC2 instance",
+            "Value": { "Ref": "Ec2Instance" }
+        },
+        "Ec2PublicIp": {
+            "Description": "Public IP address of the EC2 instance",
+            "Value": { "Fn::GetAtt": ["Ec2Instance", "PublicIp"] }
+        },
+        "S3BucketName": {
+            "Description": "Name of the created S3 bucket",
+            "Value": { "Ref": "MyS3Bucket" }
+        },
+        "HostedZoneName": {
+            "Description": "The fully-qualified domain name.",
+            "Value": {
+                "Ref": "DomainName"
+            }
+        },
+        "HostedZoneID": {
+            "Description": "The ID of the Hosted Zone.",
+            "Value": {
+                "Ref": "HostedZoneId"
+            }
+        },
+        "IAMUserName": {
+            "Description": "Name of the created IAM user",
+            "Value": { "Ref": "MyIAMUser" }
+        },
+        "MyIAMAccessKey": {
+            "Description": "IAM Access Key ID",
+            "Value": { "Ref": "MyIAMAccessKey" }
+        },
+        "MyIAMSecretKey": {
+            "Description": "IAM Secret Access Key",
+            "Value": { "Fn::GetAtt": ["MyIAMAccessKey", "SecretAccessKey"] }
+        }
+    }
+}
