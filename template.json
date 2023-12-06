@@ -217,7 +217,7 @@
                     "Ref": "HostedZoneId"
                 },
                 "Comment": "DNS record for the EC2 instance",
-                "Name": { "Fn::Sub": "gaia-x.${DomainName}" },
+                "Name": { "Fn::Sub": "gaiax.${DomainName}" },
                 "Type": "A",
                 "TTL": "300",
                 "ResourceRecords": [
@@ -234,7 +234,7 @@
                     "Ref": "HostedZoneId"
                 },
                 "Comment": "DNS record for the EC2 instance",
-                "Name": { "Fn::Sub": "gaia-x-api.${DomainName}" },
+                "Name": { "Fn::Sub": "gaiaxapi.${DomainName}" },
                 "Type": "A",
                 "TTL": "300",
                 "ResourceRecords": [
@@ -261,7 +261,8 @@
                                         "route53:ChangeResourceRecordSets",
                                         "route53:ListResourceRecordSets",
                                         "route53:GetHostedZoneCount",
-                                        "route53:ListHostedZonesByName"
+                                        "route53:ListHostedZonesByName",
+                                        "route53:GetChange"
                                     ],
                                     "Resource": "*"
                                 }
@@ -316,6 +317,10 @@
         "Ec2PublicIp": {
             "Description": "Public IP address of the EC2 instance",
             "Value": { "Fn::GetAtt": ["Ec2Instance", "PublicIp"] }
+        },
+        "Ec2PrivateIp": {
+            "Description": "Public IP address of the EC2 instance",
+            "Value": { "Fn::GetAtt": ["Ec2Instance", "PrivateIp"] }
         },
         "S3BucketName": {
             "Description": "Name of the created S3 bucket",
