@@ -3,14 +3,14 @@
 Describing Smart X PoC and Table of content
 
 -   [Prerequisites](#prerequisites)
--   [Deploy Smart-X](#deploy-smart-x-🚀)
+-   [Deploy Smart-X](#deploy-smart-x)
     -   [Deploy the Stack](#deploy-the-stack-using-the-cloudformation-template)
 -   [Configurations](#configurations)
-    -   [SSH into EC2](#ssh-into-the-instance-🔐)
-    -   [Changes in `configmap.yaml`](#change-variables-in-k8sconfigmapyaml-🛠️)
-    -   [Changes in `secret.yaml`](#change-variables-in-k8ssecretyaml-🔑)
-    -   [Changes in `ingress.yaml`](#change-domain-names-in-k8singressyaml-🌐)
-    -   [Changes in `issuer.yaml`](#change-email-name-in-k8sissueryaml-📧)
+    -   [SSH into EC2](#ssh-into-the-instance)
+    -   [Changes in `configmap.yaml`](#change-variables-in-k8sconfigmapyaml)
+    -   [Changes in `secret.yaml`](#change-variables-in-k8ssecretyaml)
+    -   [Changes in `ingress.yaml`](#change-domain-names-in-k8singressyaml)
+    -   [Changes in `issuer.yaml`](#change-email-in-k8sissueryaml)
     -   [Execute `run.sh`](#execute-runsh-🚀)
 -   [Smart-X is Live !](#now-you-can-visit-your-app-on-gaiaxyour-domain)
 
@@ -42,7 +42,9 @@ You can obtain your api key from [here](https://tinyurl.com/app/settings/profile
     <img src="./img/tinyurl.png" alt="TinyURL API Page" width="800">
 </p>
 
-## Deploy Smart-X! 🚀
+🚀
+
+## Deploy Smart-X!
 
 ### Deploy the Stack Using the CloudFormation Template
 
@@ -112,7 +114,9 @@ Once complete, view all deployed resources in the Resources tab and details in t
 
 ## Configurations
 
-### SSH into the Instance 🔐
+🔐
+
+### SSH into the Instance
 
 -   Copy the `Ec2PublicIP` from the Output section.
 
@@ -134,7 +138,9 @@ Once complete, view all deployed resources in the Resources tab and details in t
 
 Once you are in the Ec2 Instance, proceed with changing environment variables and configurations.
 
-### Change Variables in `k8s/configmap.yaml` 🛠️
+🛠️
+
+### Change Variables in `k8s/configmap.yaml`
 
 -   `SERVER_IP`: Set to "Ec2PublicIp" from the Outputs.
 
@@ -154,7 +160,9 @@ Make sure indentation is correct while pasting values, as these are YAML files.
 
 Save and close the file.
 
-### Change Variables in `k8s/secret.yaml` 🔑
+🔑
+
+### Change Variables in `k8s/secret.yaml`
 
 Use below command in a second terminal to generate base64 encoded strings for all your secrets. All the secrets in `secret.yaml` file should be base64 encoded. Also make sure you don't paste any new line characters with the encoded string.
 
@@ -182,7 +190,7 @@ echo -n "secretMessage" | base64
 
 Save and close the file.
 
-### Change Domain Names in `k8s/ingress.yaml` 🌐
+### Change Domain Names in `k8s/ingress.yaml`
 
 Replace `[your-domain]` with your actual domain name in the `k8s/ingress.yaml` file.
 (Total 6 places)
@@ -207,7 +215,7 @@ Don't keep the Square brackets from `[your-domain]`.
     <img src="./img/ingress4.png" alt="Ingress" width="450">
 </p>
 
-### Change Email in `k8s/issuer.yaml` 📧
+### Change Email in `k8s/issuer.yaml`
 
 Enter your email address replacing `example@gmail.com`. Email will be used for ACME registration
 
