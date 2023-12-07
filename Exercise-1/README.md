@@ -60,12 +60,12 @@ You will get `template.json` file from this repo, which will be needed after few
 1.  Go to CloudFormation in your AWS Console.
 
     -   Select Region: `US East(N. Virginia) us-east-1`
-    <p align="center">
+    <p>
     <img src="./img/region.png" alt="AWS Region" width="900">
     </p>
 
 2.  Create a new Stack: `With new resources(standard)`
-    <p align="center">
+    <p>
     <img src="./img/new-stack.png" alt="AWS New Stack" width="700">
     </p>
 
@@ -75,7 +75,7 @@ You will get `template.json` file from this repo, which will be needed after few
 
     -   Upload the [template.json](https://github.com/smartSenseSolutions/xfsc-workshop/blob/dabebc9caf08e85c3f02c56a3bc24440866e1f29/template.json) file from this repo.
 
-    <p align="center">
+    <p>
     <img src="./img/upload-temp.png" alt="AWS New Stack" width="700">
     </p>
 
@@ -119,9 +119,21 @@ The CloudFormation stack is being provisioned. Wait until all resources are depl
 
 Refresh the Events Tab to see the status.
 
-Once complete, view all deployed resources in the Resources tab and details in the Output Tab. Keep the Output tab open for further reference.
+<p>
+<img src="./img/create-complete.png" alt="Stack Create Compltete" width="800">
+</p>
 
-# Image here, of resources
+Once complete, view all deployed resources in the Resources tab.
+
+<p>
+<img src="./img/cf-resources.png" alt="Cloudfront Resources Tab" width="800">
+</p>
+
+There are some details in the Output Tab after you cloudfront stack creation is done. Keep the Output tab open for further reference.
+
+<p>
+<img src="./img/cf-outputs.png" alt="Cloudfront Outputs Tab" width="800">
+</p>
 
 # Image here, of Outputs
 
@@ -240,9 +252,13 @@ Enter your email address replacing `example@gmail.com`. Email will be used for A
 
 ### Execute `run.sh` 🚀
 
--   There is a shell script called `run.sh` in the root folder of your Ec2 Instance. Execute that shell script with command below.
+-   There is a shell script called `run.sh` in the root folder of your Ec2 Instance.
 
-# Image here, of run.sh
+<p>
+<img src="./img/run.png" alt="Stack Create Compltete" width="800">
+</p>
+
+-   Execute that shell script with command below.
 
 ```sh
 ./run.sh
