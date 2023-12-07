@@ -15,6 +15,14 @@ Describing Smart X PoC and Table of content
     -   [Execute `run.sh`](#execute-runsh-🚀)
 -   [Smart-X is Live !](#now-you-can-visit-your-app-on-gaiaxyour-domain)
 
+## Intro
+
+### Our Cloud Deployment
+
+<p>
+    <img src="./img/smart-x-cloud.png" alt="Smart X Cloud Deployment" width="800">
+</p>
+
 ## Prerequisites
 
 ### AWS Account
@@ -33,23 +41,11 @@ Configure a hosted zone in AWS associated with your domain name. This enables th
 
 [Create a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html) in your AWS account (in `US East(N. Virginia) us-east-1` region) for SSH access to your instance.
 
-### Tiny URL Account and API Key 🔗
-
-You'll need a Tiny URL account and API key for specific functionalities.
-
-You can obtain your api key from [here](https://tinyurl.com/app/settings/profile)
-
-<p>
-    <img src="./img/tinyurl.png" alt="TinyURL API Page" width="800">
-</p>
-
-## Clone the Repository
+## Clone the Repository, If not done already
 
 ```sh
 git clone https://github.com/smartSenseSolutions/xfsc-workshop/tree/main
 ```
-
-You will get `template.json` file from this repo, which will be needed after few steps
 
 ## Deploy Smart-X!
 
@@ -73,7 +69,7 @@ You will get `template.json` file from this repo, which will be needed after few
 
     -   Under `Specify Template`: Select "Upload a Template file"
 
-    -   Upload the [template.json](https://github.com/smartSenseSolutions/xfsc-workshop/blob/dabebc9caf08e85c3f02c56a3bc24440866e1f29/template.json) file from this repo.
+    -   Upload the [template.json](https://github.com/smartSenseSolutions/xfsc-workshop/blob/6944e9b1928b23a76ba17f31b5d45316c965382e/Exercise-1/template.json) file from this repo.
 
     <p>
     <img src="./img/upload-temp.png" alt="AWS New Stack" width="700">
@@ -210,8 +206,6 @@ Similarly, you have to create base64 encoding for all the secret values as menti
 -   `CREDENTIAL_DEFINITION_ID`: Provided.
 
 -   `PARTICIPANT_CREDENTIAL_DEFINITION_ID`: Provided.
-
--   `TINY_URL_KEY`: Set to base 64 encoding of Your Tiny URL API key.
 
 -   Leave `K8S_TOKEN` as it is, it will be automatically generated.
 
