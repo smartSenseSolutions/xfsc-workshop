@@ -135,8 +135,6 @@ There are some details in the Output Tab after you cloudfront stack creation is 
 <img src="./img/cf-outputs.png" alt="Cloudfront Outputs Tab" width="800">
 </p>
 
-# Image here, of Outputs
-
 ## Configurations
 
 🔐
