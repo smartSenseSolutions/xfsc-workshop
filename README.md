@@ -221,10 +221,10 @@ Enter your email address replacing `example@gmail.com`. Email will be used for A
 
 ### Execute `run.sh` 🚀
 
--   There is a shell script called `run.sh` in the root folder of your Ec2 Instance. Execute that shell script.
+-   There is a shell script called `run.sh` in the root folder of your Ec2 Instance. Execute that shell script with command below.
 
     ```sh
-    bash run.sh
+    ./run.sh
     ```
 
 -   This process will take a few minutes to complete. Ensure there are no errors during file application.
@@ -246,3 +246,5 @@ Wait for a few moments to ensure all services are up and running.
 -   Login to admin from given Credentials
 
 ### Happy hacking! 🙌
+
+# TODO: Create new AMI with deployed frontend to remove gaia-x-api url
