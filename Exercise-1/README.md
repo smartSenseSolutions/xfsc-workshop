@@ -84,7 +84,7 @@ git clone https://github.com/smartSenseSolutions/xfsc-workshop/tree/main
     -   `AmiID`: Provide the below AMI ID
 
     ```sh
-    ami-0048b0326e5148edc
+    ami-0801d8028b5569e45
     ```
 
     -   `AvailabilityZoneName`: Select your preferred availability zone.
