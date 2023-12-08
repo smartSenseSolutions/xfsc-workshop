@@ -42,6 +42,13 @@ If you have Postgres Database running in your system locally, the ports might co
 
 -   Go to users and create one to work with. Set its username and other attributes, save. Then go to Credentials tab, set its password twice, disable Temporary switch, save. Go to Role Mappings tab, in Client Roles drop-down box choose `federated-catalogue` client, select `Ro-MU-CA` role and add it to Assigned Roles.
 
+-   To enable the scheduler, open the `application.yml` and set the `scheduler.ces.lookup.cron` property to `*/2 * * * * *`. This will run the scheduler every 2 seconds. You can modify the time interval to your liking.
+
+-   As there are more than 400 credentials published to the CES, we recommend executing the below query in the Postgres database to only process the records that were added recently:
+
+      `INSERT INTO public.ces_process_tracker(ces_id, reason, credential, status, created_at, updated_at)
+	VALUES ('7a214a64-c9d5-4b89-ae06-360e0b7e71d9', '"404 Not Found from GET https://gaia-x.eu/legalRegistrationNumberVC.json"', '', 3, now(), now());`
+
 -   Restart fc-service-server container to pick up changes applied at the second step above. Use the below command to restart `fc-service` container.
 
 ```sh
