@@ -84,7 +84,7 @@ git clone https://github.com/smartSenseSolutions/xfsc-workshop/tree/main
     -   `AmiID`: Provide the below AMI ID
 
     ```sh
-    ami-080b7d4e19a487ccd
+    ami-043a90a67f9440f4c
     ```
 
     -   `AvailabilityZoneName`: Select your preferred availability zone.
@@ -265,6 +265,12 @@ Enter your email address replacing `example@gmail.com`. Email will be used for A
         ```
 
 Make sure `K8S_TOKEN` is properly set in `k8s/secret.yaml` file.
+
+Lastly, run this command:
+
+```sh
+kubectl apply -f k8s/ingress.yaml
+```
 
 Wait for a few moments to ensure all services are up and running.
 
