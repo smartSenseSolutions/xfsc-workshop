@@ -46,10 +46,12 @@ If you have Postgres Database, Keycloak, Neo4J or Nats server running in your sy
 
 -   As there are more than 400 credentials published to the CES, we recommend executing the below query in the Postgres database to only process the records that were added recently:
 
+  Connection string : `http://localhost:5432`, Database name:`postgres`, Authentication credenials: `postgres/postgres`
+
       `INSERT INTO public.ces_process_tracker(ces_id, reason, credential, status, created_at, updated_at)
 	VALUES ('7a214a64-c9d5-4b89-ae06-360e0b7e71d9', '404 Not Found from GET https://gaia-x.eu/legalRegistrationNumberVC.json', '', 3, now(), now());`
 
--   Restart fc-service-server container to pick up changes applied at the second step above. Use the below command to restart `fc-service` container.
+-   In a new terminal, restart fc-service-server container to pick up the changes made in the second step above. Use the below command to restart `fc-service` container.
 
 ```sh
 docker compose restart server
