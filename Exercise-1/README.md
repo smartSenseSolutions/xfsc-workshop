@@ -301,9 +301,14 @@ Some useful commands to debug:
 1. Open https://gaiax.{your-domain}/admin-login
 2. Login with username: `admin@smartsensesolutions.com` and password: `p9(E3lk&R`
 3. Scan the QR code using PCM and accept the connection
-4. Fill the form with required details(make sure you add VAT number: `FR79537407926`) and do registration
+4. Fill the form with required details( make sure you add VAT number: `FR79537407926`) and do registration
 5. Once registration is done, click on login
 6. Again scan QR code using PCM
 7. Share credentials using PCM
+
+## Source code
+1. https://github.com/smartSenseSolutions/smartsense-gaia-x-api
+2. https://github.com/smartSenseSolutions/smartsense-gaia-x-ui
+3. https://github.com/smartSenseSolutions/smartsense-gaia-x-signer
 
 ### Happy hacking! 🙌
