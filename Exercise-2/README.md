@@ -30,11 +30,11 @@ docker build -t fc-service:v1 .
 docker compose up
 ```
 
-If you have Postgres Database running in your system locally, the ports might conflict. For this you can stop your local postgres db and then try to run `docker compose up`
+If you have Postgres Database, Keycloak, Neo4J or Nats server running in your system locally, the ports might conflict. For this you can stop your local application(s) and then try to run `docker compose up` or make the necessary configuration changes to use the existing aapplication(s).
 
 ## Configurations
 
--   Now, the needed components to run catalogue is running.
+-   Now, the needed components to run catalogue are running.
 
 -   Open keycloak admin console at `http://localhost:8080/admin`, with `admin/admin` credentials, select `gaia-x` realm.
 
@@ -55,9 +55,9 @@ If you have Postgres Database running in your system locally, the ports might co
 docker compose restart server
 ```
 
-NOTE: Too many logs and requests at startup - might have to wait 10-15 mins
+NOTE: In case of too many logs and requests at startup - might have to wait 10-15 mins
 
-## Now you can start using the FC API's
+## Now you can start using the XFSC Catalogue's APIs
 
 -   You can Access the UI to Query and Discover Credentials here `http://localhost:8081/query`
 
@@ -65,4 +65,6 @@ NOTE: Too many logs and requests at startup - might have to wait 10-15 mins
 MATCH (n:ServiceOffering) where n.name contains 'pcf' RETURN n LIMIT 25
 ```
 
--   load the postmann collection from `/fc-service/fc-tools/Federated Catalogue API.postman_collection.json`
+-   To play around further with the catalogue, load the postmann collection from `/fc-service/fc-tools/Federated Catalogue API.postman_collection.json`. You may need to login for using the APIs, generate an access token using the client and user configured earlier.
+
+## Happy Hacking! :)  
