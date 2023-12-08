@@ -274,6 +274,20 @@ kubectl apply -f k8s/ingress.yaml
 
 Wait for a few moments to ensure all services are up and running.
 
+Verify your service running using `kc get po` command, the output of this should look like as below:
+
+![image](https://github.com/smartSenseSolutions/xfsc-workshop/assets/45592624/1218b835-6d60-4287-a4c7-dbea08cc00a3)
+
+
+Some useful commands to debug:
+
+1. View logs of the pod: `kc logs -f <pod name>`
+2. View k8s service `kc get svc`
+3. View k8s secret `kc get secret`
+4. To apply k8s config file  `kc apply -f  <file name>`
+5. Restart pod: `kc delete po <pod name>`
+6. Redeploy the application after code changes `deploy` and select the application number 
+
 ## Now, you can visit your app on gaiax[your-domain].
 
 <p align="center">
@@ -287,5 +301,20 @@ Wait for a few moments to ensure all services are up and running.
 -   Backend API are hosted here - https://gaiaxapi.{your-domain}/
 
 -   Login to admin from given Credentials
+
+## Register using UI with PCM
+1. Download the [PCM application](https://play.google.com/store/apps/details?id=eu.gaiax.difs.pcm) from the Play Store and do the initial setup 
+1. Open https://gaiax.{your-domain}/admin-login
+2. Login with username: `admin@smartsensesolutions.com` and password: `p9(E3lk&R`
+3. Scan the QR code using PCM and accept the connection
+4. Fill the form with required details( make sure you add VAT number: `FR79537407926`) and do registration
+5. Once registration is done, click on login
+6. Again scan QR code using PCM
+7. Share credentials using PCM
+
+## Source code
+1. https://github.com/smartSenseSolutions/smartsense-gaia-x-api
+2. https://github.com/smartSenseSolutions/smartsense-gaia-x-ui
+3. https://github.com/smartSenseSolutions/smartsense-gaia-x-signer
 
 ### Happy hacking! 🙌
