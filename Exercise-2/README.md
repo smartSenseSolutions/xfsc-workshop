@@ -70,7 +70,9 @@ If you have Postgres Database, Keycloak, Neo4J or Nats server running in your sy
 
 -   Scheduler configuration
 
-    -   To enable the scheduler, open the `application.yml` and set the `scheduler.ces.lookup.cron` property to `*/2 * * * * *`. This will run the scheduler every 2 seconds. You can modify the time interval to your liking.
+    -   To enable the scheduler, open the `application.yml` located at `fc-service-server/src/main/resources/application.yml`
+
+    -   Set the `scheduler.ces.lookup.cron` property to `*/2 * * * * *`. This will run the scheduler every 2 seconds. You can modify the time interval to your liking.
 
     -   As there are more than 400 credentials published to the CES, we recommend executing the below query in the Postgres database to only process the records that were added recently:
 
