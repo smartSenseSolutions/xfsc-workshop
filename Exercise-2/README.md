@@ -79,7 +79,7 @@ If you have Postgres Database, Keycloak, Neo4J or Nats server running in your sy
         Host : `http://localhost:5432`, Database name:`postgres`, Authentication credenials: `postgres/postgres`
 
         ```sql
-        INSERT INTO public.ces_process_tracker(ces_id, reason, credential, status, created_at, updated_at)
+        INSERT INTO ces_process_tracker(ces_id, reason, credential, status, created_at, updated_at)
         VALUES ('7a214a64-c9d5-4b89-ae06-360e0b7e71d9', '404 Not Found from GET https://gaia-x.eu/legalRegistrationNumberVC.json', '', 3, now(), now());
         ```
 
