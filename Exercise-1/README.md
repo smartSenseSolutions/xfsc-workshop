@@ -1,6 +1,8 @@
 # Setup Smart X PoC in Your AWS Account 🧑🏻‍💻
 
-Describing Smart X PoC and Table of content
+**The Smart-X PoC is a demonstrative implementation focusing on Web-DIDs, VCs and VPs within the ecosystem. By following the outlined steps, you can set up a live Smart-X environment in your cloud infrastructure.**
+
+**Table of content**
 
 -   [Prerequisites](#prerequisites)
 -   [Clone Repo](#clone-the-repository)
@@ -55,6 +57,11 @@ git clone https://github.com/smartSenseSolutions/xfsc-workshop/tree/main
 
 1.  Go to CloudFormation in your AWS Console.
 
+    -   You can just search for "Cloudformation" in the search bar and navigate to Cloudformation Console
+    <p>
+    <img src="./img/cf-console.png" alt="Cloudformation Console" width="900">
+    </p>
+
     -   Select Region: `US East(N. Virginia) us-east-1`
     <p>
     <img src="./img/region.png" alt="AWS Region" width="900">
@@ -84,7 +91,7 @@ git clone https://github.com/smartSenseSolutions/xfsc-workshop/tree/main
     -   `AmiID`: Provide the below AMI ID
 
     ```sh
-    ami-036485415abbfb85e
+    ami-00f36242995e105ce
     ```
 
     -   `AvailabilityZoneName`: Select your preferred availability zone.
@@ -145,15 +152,31 @@ There are some details in the Output Tab after you cloudfront stack creation is 
     ssh -i {path-to-key.pem} ubuntu@{ec2-public-ip}
     ```
 
-    -   If you get an error regarding `WARNING: UNPROTECTED PRIVATE KEY FILE!`
-        <p>
-            <img src="./img/unprotected-private-key.png" alt="WARNING: UNPROTECTED PRIVATE KEY FILE" width="600">
-        </p>
-    -   Execute the below command and then try to ssh again
+    -   **SSH Troubleshooting**
 
-        ```sh
-        chmod 400 {path-to-key.pem}
-        ```
+        -   `UNPROTECTED PRIVATE KEY FILE!`
+
+            -   If you get an error regarding `WARNING: UNPROTECTED PRIVATE KEY FILE!`
+                <p>
+                    <img src="./img/unprotected-private-key.png" alt="WARNING: UNPROTECTED PRIVATE KEY FILE" width="600">
+                </p>
+            -   Execute the below command and then try to ssh again
+
+                ```sh
+                chmod 400 {path-to-key.pem}
+                ```
+
+        -   `Too many authentication failures`
+
+            -   If you get an error regarding `Too many authentication failures`
+                <p>
+                    <img src="./img/too-many-auth.png" alt="Too many authentication failures" width="600">
+                </p>
+            -   Add a additional flag `-o IdentitiesOnly=yes` to your ssh command and try again.
+
+                ```sh
+                ssh -o IdentitiesOnly=yes -i {path-to-key.pem} ubuntu@{ec2-public-ip}
+                ```
 
 Once you are in the Ec2 Instance, proceed with changing environment variables and configurations.
 
@@ -166,7 +189,7 @@ Once you are in the Ec2 Instance, proceed with changing environment variables an
 -   `K8S_BASE_PATH`: Set to "Ec2PrivateIP" from the Outputs
     (e.g., "https://{ec2-private-ip}:8443" -> "https://10.0.1.18:8443").
 
--   `BASE_DOMAIN`: Your Base Domain (TODO: clarify its usage).
+-   `BASE_DOMAIN`: Your Base Domain. Entered during the stack creation. You can also get it from the CloudFormation Output tab from field name "HostedZoneName".
 
 -   `S3_BUCKET_NAME`: Set to "S3BucketName" from the Outputs.
 
@@ -317,5 +340,15 @@ Some useful commands to debug:
 1. https://github.com/smartSenseSolutions/smartsense-gaia-x-api
 2. https://github.com/smartSenseSolutions/smartsense-gaia-x-ui
 3. https://github.com/smartSenseSolutions/smartsense-gaia-x-signer
+
+## Note Regarding AWS Resource Charges
+
+Numerous resources are provisioned in our AWS account via the CloudFormation template. Should you wish to continue utilizing the Smart-X PoC, you have the option to retain these resources within your AWS account. However, please be aware that maintaining these resources will result in charges corresponding to their usage duration.
+
+To avoid incurring any charges, you can easily remove the stack from the CloudFormation console. This action will effectively delete the associated resources and prevent any additional costs from accruing.
+
+<p>
+<img src="./img/delete-stack.png" alt="Delete Stack" width="900">
+</p>
 
 ### Happy hacking! 🙌

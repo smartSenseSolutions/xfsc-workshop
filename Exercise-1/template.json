@@ -10,7 +10,7 @@
         "AmiID": {
             "Type": "String",
             "Description": "AMI Id for the EC2 instance",
-            "Default": "ami-036485415abbfb85e"
+            "Default": "ami-00f36242995e105ce"
         },
         "AvailabilityZoneName": {
             "Description": "AZ Name where subnet will be created",
