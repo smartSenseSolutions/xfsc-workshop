@@ -37,10 +37,10 @@ docker build -t fc-service:v1 .
 -   Go to `/docker` folder.
 
 ```sh
-docker compose up
+docker compose --env-file=dev.env up postgres neo4j keycloak nats
 ```
 
-If you have Postgres Database, Keycloak, Neo4J or Nats server running in your system locally, the ports might conflict. For this you can stop your local application(s) and then try to run `docker compose up` or make the necessary configuration changes to use the existing aapplication(s).
+If you have Postgres Database, Keycloak, Neo4J or Nats server running in your system locally, the ports might conflict. For this you can stop your local application(s) and then try to run run the above command or make the necessary configuration changes to use the existing aapplication(s).
 
 ## Configurations
 
@@ -59,7 +59,11 @@ If you have Postgres Database, Keycloak, Neo4J or Nats server running in your sy
 -   Generating Client Secret
 
     -   Go to `Clients` section and select `federated-catalogue` client
-    -   Go to Credentials tab, Regenerate client Secret, copy it and set to `/docker/.env` file in `FC_CLIENT_SECRET` variable
+    -   Go to Credentials tab, Regenerate client Secret, copy it and set to `/docker/dev.env` file in `FC_CLIENT_SECRET` variable
+    -   Now, deploy the fc-service
+      ```
+      docker compose --env-file=dev.env up server
+      ```
 
 -   Creating a new User
 
@@ -67,6 +71,7 @@ If you have Postgres Database, Keycloak, Neo4J or Nats server running in your sy
     -   Set its username and other attributes, save.
     -   Then go to Credentials tab, set its password, disable Temporary switch, save.
     -   Go to Role Mappings tab, click on `Assign role`, select `Filter by clients` from the drop-down and choose `federated-catalogue` client with `Ro-MU-CA` role and add it to Assigned Roles.
+
 
 -   Scheduler configuration
 
