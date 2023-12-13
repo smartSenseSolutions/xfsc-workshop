@@ -43,7 +43,9 @@ Configure a hosted zone in AWS associated with your domain name. This enables th
 
 ### Key Pair for SSH 🔐
 
-[Create a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html) in your AWS account (in `US East(N. Virginia) us-east-1` region) for SSH access to your instance.
+We have prepared this setup for two AWS regions: `US East(N. Virginia) us-east-1` and `Europe (Frankfurt) eu-central-1`. You can choose either one of these regions for your cloud deployment.
+
+[Create a key pair](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/create-key-pairs.html) in your AWS account (in `US East(N. Virginia) us-east-1` or `Europe (Frankfurt) eu-central-1` region, according to your preference) for SSH access to your ec2 instance.
 
 ## Clone the Repository, If not done already
 
@@ -64,7 +66,7 @@ git clone https://github.com/smartSenseSolutions/xfsc-workshop/tree/main
     <img src="./img/cf-console.png" alt="Cloudformation Console" width="900">
     </p>
 
-    -   Select Region: `US East(N. Virginia) us-east-1`
+    -   Select Region: `US East(N. Virginia) us-east-1` or `Europe (Frankfurt) eu-central-1`, keep the same region in which you have created your [Key Pair](#key-pair-for-ssh-🔐)
     <p>
     <img src="./img/region.png" alt="AWS Region" width="900">
     </p>
@@ -92,9 +94,17 @@ git clone https://github.com/smartSenseSolutions/xfsc-workshop/tree/main
 
     -   `AmiID`: Provide the below AMI ID
 
-    ```sh
-    ami-00f36242995e105ce
-    ```
+        -   For region `US East(N. Virginia) us-east-1`
+
+        ```sh
+        ami-00f36242995e105ce
+        ```
+
+        -   For region `Europe (Frankfurt) eu-central-1`
+
+        ```sh
+        ami-04901f84f9bd932ce
+        ```
 
     -   `AvailabilityZoneName`: Select your preferred availability zone.
 
@@ -347,10 +357,30 @@ Some useful commands to debug:
 
 Numerous resources are provisioned in our AWS account via the CloudFormation template. Should you wish to continue utilizing the Smart-X PoC, you have the option to retain these resources within your AWS account. However, please be aware that maintaining these resources will result in charges corresponding to their usage duration.
 
-To avoid incurring any charges, you can easily remove the stack from the CloudFormation console. This action will effectively delete the associated resources and prevent any additional costs from accruing.
+To avoid incurring any charges, please follow the below section to remove all the resources from your AWS account.
 
-<p>
-<img src="./img/delete-stack.png" alt="Delete Stack" width="900">
-</p>
+## Delete all the Resources and Stack
+
+-   Remove all the objects from your created S3 bucket.
+
+    -   Go to your S3 bucket, you will get the bucket name, from cloudformation output section.
+    -   Make sure there are not objects in your bucket, If there are objects, select all of them and delete.
+
+-   Remove the Cloudformation stack
+
+    -   You can easily remove the stack from the CloudFormation console. This action will effectively delete the associated resources which were provisioned during the stack creation.
+
+    <p>
+    <img src="./img/delete-stack.png" alt="Delete Stack" width="900">
+    </p>
+
+-   Lastly, clear the records in HostedZone
+
+    -   Go to your HostedZone.
+    -   If you tried onboarding an enterprise on Smart-X POC, for example `xyz` company. There will be an `A` record of `xyz.{your-domain}` in your hostedzone. You can delete all such records.
+
+-   HostedZone
+
+    -   Having a HostedZone was a prerequisite for this deployment, so if you don't want to perform this deployment again, you can delete the HostedZone as well.
 
 ### Happy hacking! 🙌

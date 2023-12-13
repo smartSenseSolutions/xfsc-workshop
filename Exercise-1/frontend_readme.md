@@ -10,7 +10,7 @@ git clone https://github.com/smartSenseSolutions/smartsense-gaia-x-ui.git
 cd smartsense-gaia-x-ui
 ```
 
-There are two ways you can run the frontend in your local machines
+There are two ways you can run the frontend in your local machines, you can try either one of them.
 
 -   [Using Docker](#run-using-doceker)
 -   [Running Locally](#run-locally-for-dev)
@@ -19,7 +19,7 @@ Change config
 
 -   [Changing Config](#changing-environment-variables)
 
-### Run Using Doceker
+### Run Using Docker
 
 #### Prerequisites
 
@@ -31,15 +31,17 @@ Change config
 docker build -t smart-x-ui .
 ```
 
+If you get an error regarding `permission denied`, try to prepend `sudo` to your docker commands. (e.g. `sudo docker build -t smart-x-ui .`)
+
 #### Run the Docker Container
 
 ```sh
-docker run -d -p 8000:80 gaia-x-ui
+docker run -d -p 8000:80 smart-x-ui
 ```
 
 #### Frontend is Running
 
-Frontend is now running in your local machine on port 8000. You can visit `http://localhost:8000/` and try using the frontned.
+Frontend is now running in your local machine on port 8000. You can visit [http://localhost:8000/](http://localhost:8000/) and try using the frontned.
 
 #### Stop and Remove the Docker Container
 
@@ -49,7 +51,7 @@ Frontend is now running in your local machine on port 8000. You can visit `http:
 docker ps
 ```
 
--   Copy the container ID with Image name `gaia-x-ui`, and stop the Container using:
+-   Copy the container ID with Image name `smart-x-ui`, and stop the Container using:
 
 ```sh
 docker stop {container-id}
@@ -81,7 +83,7 @@ npm ci
 npm start
 ```
 
--   Open your web browser and go to `http://localhost:4200` and try using the frontend.
+-   Open your web browser and go to [http://localhost:4200/](http://localhost:4200/) and try using the frontend.
 
 ### Changing Environment Variables
 
