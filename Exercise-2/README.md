@@ -106,14 +106,6 @@ keycloak:
 
     -   Set the `scheduler.ces.lookup.cron` property to `*/2 * * * * *`. This will run the scheduler every 2 seconds. You can modify the time interval to your liking.
 
-    -   As there are more than 400 credentials published to the CES, we recommend executing the below query in the Postgres database to only process the records that were added recently:
-
-        Host : `http://localhost:5432`, Database name:`postgres`, Authentication credenials: `postgres/postgres`
-
-        ```sql
-        INSERT INTO ces_process_tracker(ces_id, reason, credential, status, created_at, updated_at)
-        VALUES ('9349c873-f46e-4253-bb1e-33f3b9f029b9', '404 Not Found from GET https://gaia-x.eu/legalRegistrationNumberVC.json', '', 3, now(), now());
-        ```
 
 ## Make a build of `fc-service` from the Dockerfile
 
@@ -129,6 +121,14 @@ NOTE: In case of too many logs and requests at startup - might have to wait 10-1
       ```
       docker compose --env-file=dev.env up server
       ```
+  -   As there are more than 400 credentials published to the CES, we recommend executing the below query in the Postgres database to only process the records that were added recently:
+
+        Host : `http://localhost:5432`, Authentication credenials: `postgres/postgres`
+
+        ```sql
+        INSERT INTO ces_process_tracker(ces_id, reason, credential, status, created_at, updated_at)
+        VALUES ('9349c873-f46e-4253-bb1e-33f3b9f029b9', '404 Not Found from GET https://gaia-x.eu/legalRegistrationNumberVC.json', '', 3, now(), now());
+        ```
 
 ## Now you can start using the XFSC Catalogue's APIs
 
