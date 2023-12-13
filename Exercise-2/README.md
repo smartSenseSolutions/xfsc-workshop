@@ -24,14 +24,6 @@ cd fc-service
 git checkout feat-ces-event-integration
 ```
 
-## Make a build of `fc-service` from the Dockerfile
-
--   Keep the Image name and tag as mentioned in the command below.
-
-```sh
-docker build -t fc-service:v1 .
-```
-
 ## Start Catalogue Components with Docker compose
 
 -   Go to `/docker` folder.
@@ -60,10 +52,6 @@ If you have Postgres Database, Keycloak, Neo4J or Nats server running in your sy
 
     -   Go to `Clients` section and select `federated-catalogue` client
     -   Go to Credentials tab, Regenerate client Secret, copy it and set to `/docker/dev.env` file in `FC_CLIENT_SECRET` variable
-    -   Now, deploy the fc-service
-      ```
-      docker compose --env-file=dev.env up server
-      ```
 
 -   Creating a new User
 
@@ -85,20 +73,28 @@ If you have Postgres Database, Keycloak, Neo4J or Nats server running in your sy
 
         ```sql
         INSERT INTO ces_process_tracker(ces_id, reason, credential, status, created_at, updated_at)
-        VALUES ('7a214a64-c9d5-4b89-ae06-360e0b7e71d9', '404 Not Found from GET https://gaia-x.eu/legalRegistrationNumberVC.json', '', 3, now(), now());
+        VALUES ('9349c873-f46e-4253-bb1e-33f3b9f029b9', '404 Not Found from GET https://gaia-x.eu/legalRegistrationNumberVC.json', '', 3, now(), now());
         ```
 
--   In a new terminal, restart fc-service-server container to pick up the changes made in the second step above. Use the below command to restart `fc-service` container.
+## Make a build of `fc-service` from the Dockerfile
 
-    ```sh
-    docker compose restart server
-    ```
+-   Keep the Image name and tag as mentioned in the command below.
+
+```sh
+docker build -t fc-service:v1 .
+```
 
 NOTE: In case of too many logs and requests at startup - might have to wait 10-15 mins
+
+ -   Now, deploy the fc-service
+      ```
+      docker compose --env-file=dev.env up server
+      ```
 
 ## Now you can start using the XFSC Catalogue's APIs
 
 -   You can Access the UI to Query and Discover Credentials here `http://localhost:8081/query`
+-   Sample Cypher query to check if your service has been added (updated the `'pcf'` with a part of the name of your service):
 
 ```
 MATCH (n:ServiceOffering) where n.name contains 'pcf' RETURN n LIMIT 25
