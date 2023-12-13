@@ -14,6 +14,9 @@ There are two ways you can run the frontend in your local machines
 
 -   [Using Docker](#run-using-doceker)
 -   [Running Locally](#run-locally-for-dev)
+
+Change config
+
 -   [Changing Config](#changing-environment-variables)
 
 ### Run Using Doceker
@@ -28,17 +31,17 @@ There are two ways you can run the frontend in your local machines
 docker build -t smart-x-ui .
 ```
 
-### Run the Docker Container
+#### Run the Docker Container
 
 ```sh
 docker run -d -p 8000:80 gaia-x-ui
 ```
 
-### Frontend is Running
+#### Frontend is Running
 
 Frontend is now running in your local machine on port 8000. You can visit `http://localhost:8000/` and try using the frontned.
 
-### Stop and Remove the Docker Container
+#### Stop and Remove the Docker Container
 
 -   List the running Docker containers by:
 
