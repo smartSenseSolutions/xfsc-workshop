@@ -31,7 +31,7 @@
 
 Make sure you have an active AWS account for the setup.
 
-If you don't have an AWS account, and want to setup only the frontend lcoally, please follow this [Readme](https://github.com/smartSenseSolutions/xfsc-workshop/blob/main/Exercise-1/frontend_readme.md)
+If you don't have an AWS account, and want to setup only the frontend locally, please follow this [Readme](https://github.com/smartSenseSolutions/xfsc-workshop/blob/main/Exercise-1/frontend_readme.md)
 
 ### Domain Name 📌
 
