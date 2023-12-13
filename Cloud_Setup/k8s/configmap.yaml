@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: smartsense-gaia-x-api
+  namespace: default
+data:
+  APPLICATION_ENVIRONMENT: "dev"
+  APPLICATION_PORT: "8080"
+  MANAGEMENT_PORT: "8090"
+  DB_HOST: "postgres"
+  DB_PORT: "5432"
+  DB_NAME: "gaia-x"
+
+  # Server IP where the Services are hosted (Elastic IP that is created with the CloudFormation stack)
+  SERVER_IP: ""
+  # Your Private IP of the EC2 Instance
+  K8S_BASE_PATH: "https://{ec2-private-ip}:8443"
+  # Your domain name
+  BASE_DOMAIN: "your-domain"
+
+  K8S_SERVICE_NAME: "smartsense-gaia-x-api"
+  SIGNER_API_HOST: "http://smartsense-gaia-x-signer:8080"
+  APPLICATION_NAME: "Smart-X"
+
+  # Set the S3 Bucket Name which is created with the CloudFormation stack
+  S3_BUCKET_NAME: ""
+  TINY_URL_HOST: "https://api.tinyurl.com"
+  # OCM Engine URL
+  OCM_SERVER_HOST: "https://gaiax-ocm-engine.proofsense.in"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-config
+  labels:
+    app: postgres
+data:
+  POSTGRES_DB: postgres
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: smartsense-gaia-x-signer
+  namespace: default
+data:
+  PORT: "8080"
+  COMPLIANCE_SERVICE: "https://compliance.lab.gaia-x.eu/main/api/credential-offers"
+  # Replace this with your domain name
+  HOST: "http://gaiax.{your-domain}:30017"
+  REGISTRATION_SERVICE: "https://registrationnumber.notary.lab.gaia-x.eu/main/registrationNumberVC"
+  REGISTRY_TRUST_ANCHOR_URL: "https://registry.lab.gaia-x.eu/main/api"
+  CES_COMPLIANCE: "https://ces-main.lab.gaia-x.eu"

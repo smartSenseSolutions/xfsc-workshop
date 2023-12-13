@@ -1,0 +1,210 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: smartsense-gaia-x-ui
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 35m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 35m
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($http_origin ~* (.*\.[your-domain]|.*localhost)) {
+          set $cors "true";
+      }
+      if ($request_method = 'OPTIONS') {
+          set $cors "${cors}options";
+      }
+      if ($request_method = 'GET') {
+          set $cors "${cors}get";
+      }
+      if ($request_method = 'POST') {
+          set $cors "${cors}post";
+      }
+      if ($request_method = 'PUT') {
+          set $cors "${cors}put";
+      }
+      if ($request_method = 'DELETE') {
+          set $cors "${cors}delete";
+      }
+      if ($cors = "trueget") {
+          add_header 'Access-Control-Allow-Origin' "$http_origin" always;
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+          add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type,Authorization,Origin,Accept,X-Forwarded-For,Token,remembertoken';
+          add_header 'Access-Control-Expose-Headers' 'Authorization,Verification-Token,Token';
+          add_header 'X-Content-Type-Options' 'nosniff' always;
+          add_header 'X-Frame-Options' "SAMEORIGIN";
+          add_header 'Content-Security-Policy' "default-src,'self'" always;
+      }
+
+      if ($cors = "trueoptions") {
+          add_header 'Access-Control-Allow-Origin' "$http_origin" always;
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+          add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type,Authorization,Origin,Accept,X-Forwarded-For,Token,remembertoken';
+          add_header 'Access-Control-Max-Age' 1728000;
+          add_header 'Content-Type' 'text/plain charset=UTF-8';
+          add_header 'Content-Length' 0;
+          add_header 'Access-Control-Expose-Headers' 'Authorization,Verification-Token,Token';
+          add_header 'X-Content-Type-Options' 'nosniff' always;
+          add_header 'X-Frame-Options' "SAMEORIGIN";
+          add_header 'Content-Security-Policy' "default-src,'self'" always;
+          return 204;
+      }
+
+      if ($cors = "truepost") {
+          add_header 'Access-Control-Allow-Origin' "$http_origin" always;
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+          add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type,Authorization,Origin,Accept,X-Forwarded-For,Token,remembertoken';
+          add_header 'Access-Control-Expose-Headers' 'Authorization,Verification-Token,Token';
+          add_header 'X-Content-Type-Options' 'nosniff' always;
+          add_header 'X-Frame-Options' "SAMEORIGIN";
+          add_header 'Content-Security-Policy' "default-src,'self'" always;
+      }
+
+      if ($cors = "trueput") {
+          add_header 'Access-Control-Allow-Origin' "$http_origin" always;
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+          add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type,Authorization,Origin,Accept,X-Forwarded-For,Token,remembertoken';
+          add_header 'Access-Control-Expose-Headers' 'Authorization,Verification-Token,Token';
+          add_header 'X-Content-Type-Options' 'nosniff';
+          add_header 'X-Frame-Options' "SAMEORIGIN";
+          add_header 'Content-Security-Policy' "default-src,'self'" always;
+      }
+      if ($cors = "truedelete") {
+          add_header 'Access-Control-Allow-Origin' "$http_origin" always;
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+          add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type,Authorization,Origin,Accept,X-Forwarded-For,Token,remembrtoken';
+          add_header 'Access-Control-Expose-Headers' 'Authorization,Verification-Token,Token';
+          add_header 'X-Content-Type-Options' 'nosniff' always;
+          add_header 'X-Frame-Options' "SAMEORIGIN";
+          add_header 'Content-Security-Policy' "default-src,'self'" always;
+      }
+
+spec:
+  tls:
+    - hosts:
+        - gaiax.[your-domain]
+      secretName: gaiax-tls-new
+  rules:
+    - host: gaiax.[your-domain]
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: smartsense-gaia-x-ui
+                port:
+                  number: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: smartsense-gaia-x-api
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 35m
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 35m
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($http_origin ~* (.*\.[your-domain]|.*localhost)) {
+          set $cors "true";
+      }
+      if ($request_method = 'OPTIONS') {
+          set $cors "${cors}options";
+      }
+      if ($request_method = 'GET') {
+          set $cors "${cors}get";
+      }
+      if ($request_method = 'POST') {
+          set $cors "${cors}post";
+      }
+      if ($request_method = 'PUT') {
+          set $cors "${cors}put";
+      }
+      if ($request_method = 'DELETE') {
+          set $cors "${cors}delete";
+      }
+      if ($cors = "trueget") {
+          add_header 'Access-Control-Allow-Origin' "$http_origin" always;
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+          add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type,Authorization,Origin,Accept,X-Forwarded-For,Token,remembertoken';
+          add_header 'Access-Control-Expose-Headers' 'Authorization,Verification-Token,Token';
+          add_header 'X-Content-Type-Options' 'nosniff' always;
+          add_header 'X-Frame-Options' "SAMEORIGIN";
+          add_header 'Content-Security-Policy' "default-src,'self'" always;
+      }
+
+      if ($cors = "trueoptions") {
+          add_header 'Access-Control-Allow-Origin' "$http_origin" always;
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+          add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type,Authorization,Origin,Accept,X-Forwarded-For,Token,remembertoken';
+          add_header 'Access-Control-Max-Age' 1728000;
+          add_header 'Content-Type' 'text/plain charset=UTF-8';
+          add_header 'Content-Length' 0;
+          add_header 'Access-Control-Expose-Headers' 'Authorization,Verification-Token,Token';
+          add_header 'X-Content-Type-Options' 'nosniff' always;
+          add_header 'X-Frame-Options' "SAMEORIGIN";
+          add_header 'Content-Security-Policy' "default-src,'self'" always;
+          return 204;
+      }
+
+      if ($cors = "truepost") {
+          add_header 'Access-Control-Allow-Origin' "$http_origin" always;
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+          add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type,Authorization,Origin,Accept,X-Forwarded-For,Token,remembertoken';
+          add_header 'Access-Control-Expose-Headers' 'Authorization,Verification-Token,Token';
+          add_header 'X-Content-Type-Options' 'nosniff' always;
+          add_header 'X-Frame-Options' "SAMEORIGIN";
+          add_header 'Content-Security-Policy' "default-src,'self'" always;
+      }
+
+      if ($cors = "trueput") {
+          add_header 'Access-Control-Allow-Origin' "$http_origin" always;
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+          add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type,Authorization,Origin,Accept,X-Forwarded-For,Token,remembertoken';
+          add_header 'Access-Control-Expose-Headers' 'Authorization,Verification-Token,Token';
+          add_header 'X-Content-Type-Options' 'nosniff';
+          add_header 'X-Frame-Options' "SAMEORIGIN";
+          add_header 'Content-Security-Policy' "default-src,'self'" always;
+      }
+      if ($cors = "truedelete") {
+          add_header 'Access-Control-Allow-Origin' "$http_origin" always;
+          add_header 'Access-Control-Allow-Credentials' 'true';
+          add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+          add_header 'Access-Control-Allow-Headers' 'Keep-Alive,User-Agent,X-Requested-With,Cache-Control,Content-Type,Authorization,Origin,Accept,X-Forwarded-For,Token,remembrtoken';
+          add_header 'Access-Control-Expose-Headers' 'Authorization,Verification-Token,Token';
+          add_header 'X-Content-Type-Options' 'nosniff' always;
+          add_header 'X-Frame-Options' "SAMEORIGIN";
+          add_header 'Content-Security-Policy' "default-src,'self'" always;
+      }
+
+spec:
+  tls:
+    - hosts:
+        - gaiaxapi.[your-domain]
+      secretName: gaiax-tls-new2
+  rules:
+    - host: gaiaxapi.[your-domain]
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: smartsense-gaia-x-api
+                port:
+                  number: 8080
