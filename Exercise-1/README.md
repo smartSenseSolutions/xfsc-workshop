@@ -66,7 +66,7 @@ git clone https://github.com/smartSenseSolutions/xfsc-workshop/tree/main
     <img src="./img/cf-console.png" alt="Cloudformation Console" width="900">
     </p>
 
-    -   Select Region: `US East(N. Virginia) us-east-1` or `Europe (Frankfurt) eu-central-1`, keep the same region in which you have created your [Key Pair](#key-pair-for-ssh-🔐)
+    -   Select Region: `US East(N. Virginia) us-east-1` or `Europe (Frankfurt) eu-central-1`, keep the same region in which you have created your Key Pair in the steps above.
     <p>
     <img src="./img/region.png" alt="AWS Region" width="900">
     </p>
