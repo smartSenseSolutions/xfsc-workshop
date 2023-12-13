@@ -31,6 +31,8 @@
 
 Make sure you have an active AWS account for the setup.
 
+If you don't have an AWS account, and want to setup only the frontend lcoally, please follow this [Readme](https://github.com/smartSenseSolutions/xfsc-workshop/blob/main/Exercise-1/frontend_readme.md)
+
 ### Domain Name 📌
 
 Acquire a public domain name. This will be crucial for setting up a hosted zone in Route 53.
