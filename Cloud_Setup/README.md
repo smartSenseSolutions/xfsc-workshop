@@ -62,4 +62,4 @@ List of AWS services, we are using.
 
 -   You will need to update the configuration according to your minikube and k8s installation.
 
--   Also, in our code abse we are using S3 and Route53 which are AWS services, you will need to find the alternatives for that in your preferred cloud provider and make the code changes accordingly.
+-   Also, in our code base we are using S3 and Route53 which are AWS services, you will need to find the alternatives for that in your preferred cloud provider and make the code changes accordingly.
