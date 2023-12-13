@@ -1,6 +1,6 @@
 # Configure kubernetes in your own cloud provider for deployment
 
-We have configured the Smart-X POC to run in AWS Cloud Infrastructure, but you run Smart-X POC in your own cloud environments as well. However you will have to configure many things as an alternative to AWS services in your own cloud infrastructure.
+We have configured the Smart-X POC to run in AWS Cloud Infrastructure, but you can run Smart-X POC in your own cloud environments as well. However you will have to configure many things as an alternative to AWS services in your own cloud infrastructure.
 
 List of AWS services, we are using.
 
