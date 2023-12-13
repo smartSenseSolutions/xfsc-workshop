@@ -34,6 +34,45 @@ docker compose --env-file=dev.env up postgres neo4j keycloak nats
 
 If you have Postgres Database, Keycloak, Neo4J or Nats server running in your system locally, the ports might conflict. For this you can stop your local application(s) and then try to run run the above command or make the necessary configuration changes to use the existing aapplication(s).
 
+# Facing issues with postgres initialization scripts
+If you are facing issues with running the postgres initialization script, please update the keycloak service in the `docker-compose.yml` as below. This will run your keycloak using its embedded database.
+```
+keycloak:
+  container_name: "keycloak"
+  environment:
+#      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+#      KC_DB_USERNAME: keycloak
+#      KC_DB_PASSWORD: keycloak
+#      KC_DB_SCHEMA: public
+    KC_FEATURES: preview
+    KEYCLOAK_ADMIN: "${KEYCLOAK_ADMIN}"
+    KEYCLOAK_ADMIN_PASSWORD: "${KEYCLOAK_ADMIN_PASSWORD}"
+    PROXY_ADDRESS_FORWARDING: "true"
+  image: quay.io/keycloak/keycloak:20.0.2
+  ports:
+    - "8080:8080"
+  networks:
+    - "gaia-x"
+  restart: unless-stopped
+  volumes:
+    - "../keycloak/providers:/opt/keycloak/providers"
+    - "../keycloak/realms:/opt/keycloak/data/import"
+  command:
+    [
+        'start --auto-build --hostname-strict-https false --hostname-strict false --proxy edge --http-enabled true --import-realm ',
+        '--log-level=DEBUG,io.quarkus:INFO,liquibase:INFO,org.hibernate:INFO,org.infinispan:INFO,org.keycloak.services.scheduled:INFO,org.keycloak.transaction:INFO,io.netty.buffer.PoolThreadCache:INFO,org.keycloak.models.sessions.infinispan:INFO'
+    ]
+#    depends_on:
+#      postgres:
+#        condition: service_healthy
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://0.0.0.0:8080/realms/master"]
+    start_period: 10s
+    interval: 30s
+    retries: 3
+    timeout: 5s
+```
+
 ## Configurations
 
 -   Now, the needed components to run catalogue are running.
