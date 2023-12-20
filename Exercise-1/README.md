@@ -97,13 +97,13 @@ git clone https://github.com/smartSenseSolutions/xfsc-workshop/tree/main
         -   For region `US East(N. Virginia) us-east-1`
 
         ```sh
-        ami-00f36242995e105ce
+        ami-0be07fcf0f4e0c6af
         ```
 
         -   For region `Europe (Frankfurt) eu-central-1`
 
         ```sh
-        ami-04901f84f9bd932ce
+        ami-02d95d2d49a896d2f
         ```
 
     -   `AvailabilityZoneName`: Select your preferred availability zone.
@@ -141,13 +141,13 @@ Refresh the Events Tab to see the status.
 Once complete, view all deployed resources in the Resources tab.
 
 <p>
-<img src="./img/cf-resources.png" alt="Cloudfront Resources Tab" width="800">
+<img src="./img/cf-resources.png" alt="cloudformation Resources Tab" width="800">
 </p>
 
-There are some details in the Output Tab after you cloudfront stack creation is done. Keep the Output tab open for further reference.
+There are some details in the Output Tab after you cloudformation stack creation is done. Keep the Output tab open for further reference.
 
 <p>
-<img src="./img/cf-outputs.png" alt="Cloudfront Outputs Tab" width="800">
+<img src="./img/cf-outputs.png" alt="cloudformation Outputs Tab" width="800">
 </p>
 
 ## Configurations
